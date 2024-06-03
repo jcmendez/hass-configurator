@@ -16,4 +16,4 @@ RUN chmod a+x /app/run.sh
 
 EXPOSE 3218
 VOLUME /config
-ENTRYPOINT ["/app/run.sh"]
+ENTRYPOINT ["su", "-p", "nobody", "-s", "/bin/sh", "-c", "/app/run.sh"]
