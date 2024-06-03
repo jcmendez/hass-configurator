@@ -3,7 +3,7 @@
 # pylint: disable=too-many-lines
 """
 Configurator for Home Assistant.
-https://github.com/danielperna84/hass-configurator
+https://github.com/jcmendez/hass-configurator
 """
 import os
 import sys
@@ -110,8 +110,8 @@ SO.setLevel(LOGLEVEL)
 SO.setFormatter(
     logging.Formatter('%(levelname)s:%(asctime)s:%(name)s:%(message)s'))
 LOG.addHandler(SO)
-RELEASEURL = "https://api.github.com/repos/danielperna84/hass-configurator/releases/latest"
-VERSION = "0.3.7"
+RELEASEURL = "https://api.github.com/repos/jcmendez/hass-configurator/releases/latest"
+VERSION = "0.5.3.1"
 BASEDIR = "."
 DEV = False
 LISTENPORT = None
