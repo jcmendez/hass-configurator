@@ -5212,6 +5212,7 @@ def main():
         from http.server import HTTPServer
         ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
         ssl_context.load_cert_chain(certfile=SSL_CERTIFICATE, keyfile=SSL_KEY)
+        ssl_context.minimum_version = ssl.TLSVersion.TLSv1_2
         HTTPD = HTTPServer(('localhost', 4443), handler)
         # Use the SSL context to wrap the server socket
         HTTPD.socket = ssl_context.wrap_socket(HTTPD.socket, server_side=True)

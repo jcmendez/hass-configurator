@@ -1799,10 +1799,17 @@ def main():
         handler = RequestHandler
     HTTPD = custom_server(server_address, handler)
     if SSL_CERTIFICATE:
-        HTTPD.socket = ssl.wrap_socket(HTTPD.socket,
-                                       certfile=SSL_CERTIFICATE,
-                                       keyfile=SSL_KEY,
-                                       server_side=True)
+        # Code previously used ssl.wrap_socket to wrap the server socket so we
+        # change to use ssl_context.wrap_socket instead.
+        # We create an SSL context and load the certificate and key into it,
+        # create an HTTPD server and then wrap the server socket 
+        from http.server import HTTPServer
+        ssl_context = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+        ssl_context.minimum_version = ssl.TLSVersion.TLSv1_2
+        ssl_context.load_cert_chain(certfile=SSL_CERTIFICATE, keyfile=SSL_KEY)
+        HTTPD = HTTPServer(('localhost', 4443), handler)
+        # Use the SSL context to wrap the server socket
+        HTTPD.socket = ssl_context.wrap_socket(HTTPD.socket, server_side=True)
     LOG.info('Listening on: %s://%s:%i',
              'https' if SSL_CERTIFICATE else 'http',
              HTTPD.server_address[0], HTTPD.server_address[1])
